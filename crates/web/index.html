@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="潮汐图床 - 快速、安全的图片托管服务" />
+    <meta name="theme-color" content="#1d6fd8" />
+    <title>潮汐图床</title>
+
+    <link data-trunk rel="css" href="style.css" />
+    <link data-trunk rel="rust" data-bin="tide-web" data-wasm-opt="0" />
+  </head>
+  <body>
+    <div id="app-loader" style="
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #eef7ff, #d9edff);
+      z-index: 9999;
+    ">
+      <div style="text-align: center;">
+        <div style="
+          width: 48px;
+          height: 48px;
+          margin: 0 auto 16px;
+          border: 4px solid rgba(29, 111, 216, 0.1);
+          border-top-color: #1d6fd8;
+          border-radius: 50%;
+          animation: spin 0.6s linear infinite;
+        "></div>
+        <p style="color: #1d6fd8; font-size: 14px; margin: 0;">正在加载...</p>
+      </div>
+    </div>
+
+    <style>
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+
+    <script>
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          const loader = document.getElementById('app-loader');
+          if (loader) {
+            loader.style.opacity = '0';
+            loader.style.transition = 'opacity 0.3s ease';
+            setTimeout(() => loader.remove(), 300);
+          }
+        }, 100);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+[workspace]
+members = ["crates/shared", "crates/server", "crates/web"]
+resolver = "2"
+
+[workspace.package]
+edition = "2024"
+license = "AGPL-3.0-or-later"
+authors = ["Tide Image Hosting"]
+
+[workspace.dependencies]
+anyhow = "1"
+argon2 = "0.5"
+async-trait = "0.1"
+aws-config = "1"
+aws-credential-types = "1"
+aws-sdk-s3 = "1"
+aws-smithy-runtime-api = "1"
+aws-smithy-types = "1"
+axum = { version = "0.8", features = ["multipart", "macros"] }
+axum-extra = { version = "0.10", features = ["cookie", "typed-header"] }
+base64 = "0.22"
+chrono = { version = "0.4", features = ["serde"] }
+dotenvy = "0.15"
+futures = "0.3"
+hex = "0.4"
+image = { version = "0.25", default-features = false, features = ["jpeg", "png", "gif", "webp", "avif"] }
+jsonwebtoken = "9"
+lettre = { version = "0.11", default-features = false, features = ["builder", "smtp-transport", "tokio1-rustls-tls"] }
+leptos = { version = "0.7", features = ["csr"] }
+console_error_panic_hook = "0.1"
+gloo-file = { version = "0.3", features = ["futures"] }
+gloo-net = { version = "0.6", features = ["http"] }
+gloo-storage = "0.3"
+js-sys = "0.3"
+mime_guess = "2"
+rand = "0.8"
+reqwest = { version = "0.12", default-features = false, features = ["json", "multipart", "rustls-tls", "stream"] }
+rsa = { version = "0.9", features = ["sha2"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+aes-gcm = "0.10"
+sqlx = { version = "0.8", features = ["runtime-tokio-rustls", "postgres", "uuid", "chrono", "json", "migrate"] }
+thiserror = "2"
+time = "0.3"
+tokio = { version = "1", features = ["full"] }
+tower-http = { version = "0.6", features = ["cors", "fs", "trace", "compression-gzip", "limit"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+urlencoding = "2"
+uuid = { version = "1", features = ["serde", "v4", "js"] }
+wasm-bindgen = "0.2"
+wasm-bindgen-futures = "0.4"
+web-sys = { version = "0.3", features = ["Blob", "Clipboard", "ClipboardEvent", "DataTransfer", "DataTransferItemList", "DataTransferItem", "Document", "DragEvent", "Element", "Event", "File", "FileList", "FormData", "Headers", "HtmlDocument", "HtmlInputElement", "HtmlSelectElement", "HtmlTextAreaElement", "Location", "Navigator", "Range", "Selection", "Url", "Window"] }
+webp = { version = "0.3", default-features = false }
+
+[profile.release]
+opt-level = 'z'
+lto = true
+codegen-units = 1
+panic = 'abort'
+strip = true
+
+[profile.release.package."*"]
+opt-level = 'z'

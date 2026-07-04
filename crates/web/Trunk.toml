@@ -1,0 +1,8 @@
+[build]
+target = "index.html"
+dist = "dist"
+release = false
+minify = "never"
+
+[tools]
+wasm_opt = "none"

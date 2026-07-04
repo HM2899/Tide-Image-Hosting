@@ -1,0 +1,70 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: tide
+      POSTGRES_USER: tide
+      POSTGRES_PASSWORD: tide
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tide -d tide"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgres://tide:tide@postgres:5432/tide}
+      APP_HOST: ${APP_HOST:-0.0.0.0}
+      APP_PORT: ${APP_PORT:-8080}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-}
+      SESSION_SECRET: ${SESSION_SECRET:-change-this-session-secret}
+      CONFIG_ENCRYPTION_KEY: ${CONFIG_ENCRYPTION_KEY:-change-this-config-encryption-key}
+      LOCAL_STORAGE_ROOT: ${LOCAL_STORAGE_ROOT:-/data/storage}
+      LOCAL_STORAGE_PUBLIC_PREFIX: ${LOCAL_STORAGE_PUBLIC_PREFIX:-/files}
+      AI_SERVICE_URL: ${AI_SERVICE_URL:-http://127.0.0.1:8080}
+      AI_PROVIDER_URL: ${AI_PROVIDER_URL:-}
+      AI_PROVIDER_API_KEY: ${AI_PROVIDER_API_KEY:-}
+      GITHUB_OAUTH_CLIENT_ID: ${GITHUB_OAUTH_CLIENT_ID:-}
+      GITHUB_OAUTH_CLIENT_SECRET: ${GITHUB_OAUTH_CLIENT_SECRET:-}
+      LINUXDO_OAUTH_CLIENT_ID: ${LINUXDO_OAUTH_CLIENT_ID:-}
+      LINUXDO_OAUTH_CLIENT_SECRET: ${LINUXDO_OAUTH_CLIENT_SECRET:-}
+      INITIAL_ADMIN_EMAIL: ${INITIAL_ADMIN_EMAIL:-admin@example.com}
+      INITIAL_ADMIN_PASSWORD: ${INITIAL_ADMIN_PASSWORD:-ChangeMe123!}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - local_storage:/data/storage
+    ports:
+      - "${APP_PUBLIC_PORT:-8080}:${APP_PORT:-8080}"
+    healthcheck:
+      test: ["CMD", "tide-server", "--healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+  redis_data:
+  local_storage:

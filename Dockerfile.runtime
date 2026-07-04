@@ -1,0 +1,8 @@
+FROM debian:trixie-slim
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates libwebp7 libjpeg62-turbo libpng16-16 && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+COPY target/release/tide-server /usr/local/bin/tide-server
+COPY frontend ./frontend
+COPY migrations ./migrations
+EXPOSE 8080
+CMD ["tide-server"]

@@ -1,0 +1,45 @@
+[package]
+name = "tide-server"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+tide-shared = { path = "../shared" }
+anyhow.workspace = true
+argon2.workspace = true
+async-trait.workspace = true
+aws-config.workspace = true
+aws-credential-types.workspace = true
+aws-sdk-s3.workspace = true
+aws-smithy-runtime-api.workspace = true
+aws-smithy-types.workspace = true
+axum.workspace = true
+axum-extra.workspace = true
+base64.workspace = true
+chrono.workspace = true
+dotenvy.workspace = true
+futures.workspace = true
+hex.workspace = true
+image.workspace = true
+jsonwebtoken.workspace = true
+lettre.workspace = true
+mime_guess.workspace = true
+rand.workspace = true
+reqwest.workspace = true
+rsa.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+aes-gcm.workspace = true
+sqlx.workspace = true
+thiserror.workspace = true
+time.workspace = true
+tokio.workspace = true
+tower-http.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+urlencoding.workspace = true
+uuid.workspace = true
+webp.workspace = true
