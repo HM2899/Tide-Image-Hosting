@@ -11,17 +11,17 @@ cp .env.example .env
 docker compose up -d --build
 ```
 
-打开：
+访问地址（把 `YOUR_SERVER_IP` 换成服务器公网 IP 或域名）：
 
 ```text
-http://localhost:18080
+http://YOUR_SERVER_IP:18080
 ```
 
 首次启动会自动执行 `migrations/`，初始化默认用户组、配额规则、本地存储 provider、站点设置、主题设置和初始超级管理员。
 
 需要重点修改的 `.env`：
 
-- `PUBLIC_BASE_URL`：公网访问地址，用于生成图片链接。
+- `PUBLIC_BASE_URL`：公网访问地址，用于生成图片链接，例如 `http://YOUR_SERVER_IP:18080`。
 - `APP_PUBLIC_PORT`：宿主机对外暴露端口，服务器上 `8080` 被占用时可改为 `18080`、`18088` 等。
 - `SESSION_SECRET`、`CONFIG_ENCRYPTION_KEY`：生产环境必须更换。
 - `LOCAL_STORAGE_ROOT`：本地磁盘落盘目录，默认 `/data/storage`。
